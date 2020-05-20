@@ -29,6 +29,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     title;
     @track filters;
     conditions;
+    documentForceUrl;
 
     get DateSorted() {
         return this.sortField == 'ContentDocument.CreatedDate';
@@ -73,6 +74,8 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
         .then(result => {
             let listAttachments = new Array();
             let contentDocumentLinks = result.contentDocumentLinks;
+            this.documentForceUrl = result.documentForceUrl;
+
             for(var item of contentDocumentLinks){
                 listAttachments.push(this.calculateFileAttributes(item));
             }
@@ -107,7 +110,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     calculateFileAttributes(item){
         let imageExtensions = ['png','jpg','gif'];
         let supportedIconExtensions = ['ai','attachment','audio','box_notes','csv','eps','excel','exe','flash','folder','gdoc','gdocs','gform','gpres','gsheet','html','image','keynote','library_folder','link','mp4','overlay','pack','pages','pdf','ppt','psd','quip_doc','quip_sheet','quip_slide','rtf','slide','stypi','txt','unknown','video','visio','webex','word','xml','zip'];
-        item.src = 'https://cma-cgm--devgav--c.documentforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB120BY90&versionId=' + item.ContentDocument.LatestPublishedVersionId;
+        item.src = this.documentForceUrl + '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB120BY90&versionId=' + item.ContentDocument.LatestPublishedVersionId;
         item.size = this.formatBytes(item.ContentDocument.ContentSize, 2);
         item.icon = 'doctype:attachment';
 

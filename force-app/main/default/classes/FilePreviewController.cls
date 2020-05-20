@@ -23,6 +23,7 @@ public with sharing class FilePreview {
         FilesInformation fileInfo = new FilesInformation();
         fileInfo.totalCount = Database.countQuery(countQuery);
         fileInfo.contentDocumentLinks = contentDocumentLinks;
+        fileInfo.documentForceUrl = 'https://' + URL.getSalesforceBaseUrl().getHost().substringBefore('.') + '--c.documentforce.com';
 
         return fileInfo;
     }
@@ -48,7 +49,7 @@ public with sharing class FilePreview {
 
         return contentDocumentLinks;
     }
-    
+
     private static String generateConditionString(List<String> filters){
         String conditionString = '';
         if(filters != null && !filters.isEmpty()){
@@ -88,6 +89,8 @@ public with sharing class FilePreview {
     public class FilesInformation{
         @AuraEnabled
         public Integer totalCount;
+        @AuraEnabled
+        public String documentForceUrl;
         @AuraEnabled
         public List<ContentDocumentLink> contentDocumentLinks;
     }
