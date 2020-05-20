@@ -4,4 +4,4 @@ Lightning Web Component that display related file information with preview, lazy
 
 ## Screenshots
 
-![screenshot-1](https://public.gavignon.io/images/lwc-file-preview.jpg)
+<img src="https://public.gavignon.io/images/lwc-file-preview.jpg" width="50%">
