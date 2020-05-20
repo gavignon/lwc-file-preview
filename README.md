@@ -1,4 +1,4 @@
-# lwc-file-preview
+# ![logo](https://public.gavignon.io/images/lwc-file-preview-logo.png) lwc-file-preview
 
 Lightning Web Component that display related file information with preview, lazy loading, sort and filter abilities.
 
