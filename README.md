@@ -1,4 +1,4 @@
-# <img src="https://public.gavignon.io/images/lwc-file-preview-title.png" height="50">
+# <img src="https://public.gavignon.io/images/lwc-file-preview-title.png" height="32">
 
 Lightning Web Component that display related file information with preview, lazy loading, sort and filter abilities.
 
