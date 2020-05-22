@@ -3,7 +3,7 @@
 * @date 12/05/2020
 * @description File Preview Component with filter and sort options
 */
-public with sharing class FilePreview {
+public with sharing class FilePreviewController {
     private static Map<String, String> mapConditionByFilter = new Map<String, String>{
         'gt100KB' => 'ContentDocument.ContentSize >= ' + 100 * 1024,
         'lt100KBgt10KB' => '(ContentDocument.ContentSize < ' + 100 * 1024 + ' AND ContentDocument.ContentSize > ' + 10 * 1024 + ')',

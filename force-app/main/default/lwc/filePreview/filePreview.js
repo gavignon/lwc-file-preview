@@ -25,6 +25,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     @track sortOrder;
     @track sortField;
     @track disabled;
+    @track fids = '';
 
     title;
     @track filters;
@@ -72,12 +73,15 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     initRecords(){
         initFiles({ recordId: this.recordId, filters: this.conditions, defaultLimit: this.defaultNbFileDisplayed, sortField: this.sortField, sortOrder: this.sortOrder })
         .then(result => {
+            this.fids = '';
             let listAttachments = new Array();
             let contentDocumentLinks = result.contentDocumentLinks;
             this.documentForceUrl = result.documentForceUrl;
 
             for(var item of contentDocumentLinks){
                 listAttachments.push(this.calculateFileAttributes(item));
+                if (this.fids != '') this.fids += ',';
+                this.fids += item.ContentDocumentId;
             }
 
             this.attachments = listAttachments;
@@ -144,7 +148,8 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
                 pageName: 'filePreview'
             },
             state : {
-                selectedRecordId: elementId
+                selectedRecordId: elementId,
+                recordIds: this.fids
             }
         })
     }
@@ -174,6 +179,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
             for(var cdl of result){
                 self.attachments.unshift(self.calculateFileAttributes(cdl));
                 self.fileCreated = true;
+                this.fids = cdl.ContentDocumentId + (this.fids=='' ? '' : ',' + this.fids);
             }
 
             self.updateCounters(result.length);
@@ -189,6 +195,8 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
             for(var cdl of result){
                 self.attachments.push(self.calculateFileAttributes(cdl));
                 self.fileCreated = true;
+                if (this.fids != '') this.fids += ',';
+                this.fids += cdl.ContentDocumentId;
             }
 
             self.updateCounters(result.length);
@@ -245,7 +253,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
             sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
             i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-     }
+    }
 
     showNotification(title, message, variant) {
         const evt = new ShowToastEvent({
