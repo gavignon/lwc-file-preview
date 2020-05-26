@@ -12,34 +12,36 @@
             </div>
         </h2>
         <div class="slds-var-p-horizontal_medium slds-var-p-vertical_xx-small">
-            <div class="slds-list_horizontal">
-                <button class="slds-badge" style="border: none;" onclick={handleSort} value="ContentDocument.CreatedDate" disabled={disabled}>
-                    <template if:true={DateSorted}>
-                        <lightning-icon icon-name={sortIcon} size="xx-small" alternative-text={sortOrder}
-                        title={sortOrder}></lightning-icon>
-                    </template>
-                    Date
-                </button>
-                <button class="slds-badge" style="border: none;" onclick={handleSort} value="ContentDocument.Title" disabled={disabled}>
-                    <template if:true={NameSorted}>
-                        <lightning-icon icon-name={sortIcon} size="xx-small" alternative-text={sortOrder}
-                        title={sortOrder}></lightning-icon>
-                    </template>
-                    Name
-                </button>
-                <button class="slds-badge" style="border: none;" onclick={handleSort} value="ContentDocument.ContentSize" disabled={disabled}>
-                    <template if:true={SizeSorted}>
-                        <lightning-icon icon-name={sortIcon} size="xx-small" alternative-text={sortOrder}
-                        title={sortOrder}></lightning-icon>
-                    </template>
-                    Size
-                </button>
-                <!--  Cannot use lightning Badges because icons are not working 
-                    <lightning-badge label="Name" icon-name="utility:arrowup"></lightning-badge>
-                    <lightning-badge label="Date"></lightning-badge>
-                    <lightning-badge label="Size"></lightning-badge>
-                 -->
-            </div>
+            <template if:false={noRecords}>
+                <div class="slds-list_horizontal">
+                    <button class="slds-badge" style="border: none;" onclick={handleSort} value="ContentDocument.CreatedDate" disabled={disabled}>
+                        <template if:true={DateSorted}>
+                            <lightning-icon icon-name={sortIcon} size="xx-small" alternative-text={sortOrder}
+                            title={sortOrder}></lightning-icon>
+                        </template>
+                        Date
+                    </button>
+                    <button class="slds-badge" style="border: none;" onclick={handleSort} value="ContentDocument.Title" disabled={disabled}>
+                        <template if:true={NameSorted}>
+                            <lightning-icon icon-name={sortIcon} size="xx-small" alternative-text={sortOrder}
+                            title={sortOrder}></lightning-icon>
+                        </template>
+                        Name
+                    </button>
+                    <button class="slds-badge" style="border: none;" onclick={handleSort} value="ContentDocument.ContentSize" disabled={disabled}>
+                        <template if:true={SizeSorted}>
+                            <lightning-icon icon-name={sortIcon} size="xx-small" alternative-text={sortOrder}
+                            title={sortOrder}></lightning-icon>
+                        </template>
+                        Size
+                    </button>
+                    <!--  Cannot use lightning Badges because icons are not working 
+                        <lightning-badge label="Name" icon-name="utility:arrowup"></lightning-badge>
+                        <lightning-badge label="Date"></lightning-badge>
+                        <lightning-badge label="Size"></lightning-badge>
+                     -->
+                </div>
+            </template>
             
             <ul class="slds-var-m-top_medium">
                 <!-- Skeleton Loading -->

@@ -56,6 +56,9 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     get SizeSorted() {
         return this.sortField == 'ContentDocument.ContentSize';
     }
+    get noRecords(){
+        return this.totalFiles == 0;
+    }
 
     // Initialize component
     connectedCallback() {
