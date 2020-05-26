@@ -42,43 +42,59 @@
             </div>
             
             <ul class="slds-var-m-top_medium">
-                <template for:each={attachments} for:item="attachment">
-                    <li key={attachment.Id} class="forceContentVirtualRelatedListStencil forceRecordLayout">
+                <!-- Skeleton Loading -->
+                <template if:false={loaded}>
+                    <li class="forceContentVirtualRelatedListStencil forceRecordLayout">
                         <div class="slds-list_horizontal slds-media_center slds-var-p-vertical_xx-small">
                             <div class="slds-show_inline-block slds-align-middle thumbnailImg">
-                                <lightning-icon icon-name={attachment.icon} alternative-text="Doctype file" data-id={attachment.Id}  title="Doctype"></lightning-icon>
-                                <img src={attachment.src} class="thumbnailImg slds-hide" data-id={attachment.Id} onload={handleLoad}/>
+                                <c-stencil width="100%" height="30px" radius="2px"></c-stencil>
                             </div>
-                            <div class="slds-show_inline-block slds-var-p-left_x-small slds-truncate slds-var-m-right_x-small">
-                                <a class="itemTitle uiOutputText" onclick={openPreview} data-id={attachment.ContentDocumentId}>{attachment.ContentDocument.Title}</a>
+                            <div class="slds-show_inline-block slds-var-p-left_x-small slds-truncate slds-var-m-right_x-small" style="width: 100%;">
+                                <c-stencil width="100%" height="10px" animated="true" radius="30px"></c-stencil>
                                 <p class="slds-m-around_none secondaryFields slds-text-body_small slds-truncate">
-                                    <span>
-                                        <lightning-formatted-date-time value={attachment.ContentDocument.CreatedDate}></lightning-formatted-date-time>
-                                    </span>
-                                    <span>{attachment.size}</span>
-                                    <span>{attachment.ContentDocument.FileExtension}</span>
+                                    <c-stencil width="100%" height="10px" animated="true" radius="30px"></c-stencil>
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="forceContentVirtualRelatedListStencil forceRecordLayout">
+                        <div class="slds-list_horizontal slds-media_center slds-var-p-vertical_xx-small">
+                            <div class="slds-show_inline-block slds-align-middle thumbnailImg">
+                                <c-stencil width="100%" height="30px" radius="2px"></c-stencil>
+                            </div>
+                            <div class="slds-show_inline-block slds-var-p-left_x-small slds-truncate slds-var-m-right_x-small" style="width: 100%;">
+                                <c-stencil width="100%" height="10px" animated="true" radius="30px"></c-stencil>
+                                <p class="slds-m-around_none secondaryFields slds-text-body_small slds-truncate">
+                                    <c-stencil width="100%" height="10px" animated="true" radius="30px"></c-stencil>
                                 </p>
                             </div>
                         </div>
                     </li>
                 </template>
+
+                <template if:true={loaded}>
+                    <template for:each={attachments} for:item="attachment">
+                        <li key={attachment.Id} class="forceContentVirtualRelatedListStencil forceRecordLayout">
+                            <div class="slds-list_horizontal slds-media_center slds-var-p-vertical_xx-small">
+                                <div class="slds-show_inline-block slds-align-middle thumbnailImg">
+                                    <lightning-icon icon-name={attachment.icon} alternative-text="Doctype file" data-id={attachment.Id}  title="Doctype"></lightning-icon>
+                                    <img src={attachment.src} class="thumbnailImg slds-hide" data-id={attachment.Id} onload={handleLoad}/>
+                                </div>
+                                <div class="slds-show_inline-block slds-var-p-left_x-small slds-truncate slds-var-m-right_x-small">
+                                    <a class="itemTitle uiOutputText" onclick={openPreview} data-id={attachment.ContentDocumentId}>{attachment.ContentDocument.Title}</a>
+                                    <p class="slds-m-around_none secondaryFields slds-text-body_small slds-truncate">
+                                        <span>
+                                            <lightning-formatted-date-time value={attachment.ContentDocument.CreatedDate}></lightning-formatted-date-time>
+                                        </span>
+                                        <span>{attachment.size}</span>
+                                        <span>{attachment.ContentDocument.FileExtension}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                </template>
             </ul>
-            <!-- Drop Zone Custom -->
-            <!-- <div class="drop-zone-container slds-var-p-around_x-small slds-var-m-around_medium">
-                <div class="drop-zone drop-zone-border slds-color__text_gray-7 slds-text-align_center placeholder slds-is-relative" ondrop={handleDrop} ondragenter={handleDragEnter} ondragleave={handleDragLeave}>
-                    <template if:false={fileCreated}>
-                        Uploading file... <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-                    </template>
-                    <template if:true={fileCreated}>
-                        <template if:true={inDropZone}>
-                            <span style="font-weight: bold;color: #639bd0;">Drop it here!</span>
-                        </template>
-                        <template if:false={inDropZone}>
-                            Drop a file here to upload it.
-                        </template>
-                    </template>
-                </div>
-            </div> -->
             <div style="text-align: center;">
                 <lightning-file-upload
                     class="file-upload forceContentRelatedListPreviewFileList"
@@ -94,7 +110,14 @@
         <template if:true={moreRecords}>
             <a onclick={loadMore}>
                 <div class="slds-card__footer">
-                    <span>View More</span>
+                    <template if:true={moreLoaded}>
+                        <span>View More</span>
+                    </template>
+                    <template if:false={moreLoaded}>
+                        <div style="position: relative; min-height:50px;">
+                            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                        </div>
+                    </template>
                 </div>
             </a>
         </template>

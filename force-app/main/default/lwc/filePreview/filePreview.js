@@ -15,19 +15,35 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     @api defaultNbFileDisplayed;
     @api limitRows;
 
+    @track moreLoaded = true;
+    @track loaded = false;
     @track attachments;
     @track totalFiles;
     @track moreRecords;
     @track offset=0;
-    @track fileCreated = true;
-    @track inDropZone = false;
-    @track sortIcon;
-    @track sortOrder;
-    @track sortField;
-    @track disabled;
+    @track sortIcon = 'utility:arrowdown';
+    @track sortOrder = 'DESC';
+    @track sortField = 'ContentDocument.CreatedDate';
+    @track disabled = true;
+    @track filters = [
+        {
+            'id' : 'gt100KB',
+            'label' : '>= 100 KB',
+            'checked' : true
+        },
+        {
+            'id' : 'lt100KBgt10KB',
+            'label' : '< 100 KB and > 10 KB',
+            'checked' : true
+        },
+        {
+            'id' : 'lt10KB',
+            'label' : '<= 10 KB',
+            'checked' : true
+        }
+    ];
 
     title;
-    @track filters;
     conditions;
     documentForceUrl;
 
@@ -43,29 +59,6 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
 
     // Initialize component
     connectedCallback() {
-        this.sortOrder = 'DESC';
-        this.sortField = 'ContentDocument.CreatedDate';
-        this.sortIcon = 'utility:arrowdown';
-        this.disabled = true;
-
-        this.filters = [
-            {
-                'id' : 'gt100KB',
-                'label' : '>= 100 KB',
-                'checked' : true
-            },
-            {
-                'id' : 'lt100KBgt10KB',
-                'label' : '< 100 KB and > 10 KB',
-                'checked' : true
-            },
-            {
-                'id' : 'lt10KB',
-                'label' : '<= 10 KB',
-                'checked' : true
-            }
-        ];
-
         this.initRecords();
     }
 
@@ -100,6 +93,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
             this.title = 'Files (' + nbFiles + ')';
 
             this.disabled = false;
+            this.loaded = true;
 
         })
         .catch(error => {
@@ -183,6 +177,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
     }
 
     loadMore(){
+        this.moreLoaded = false;
         var self = this;
         loadFiles({ recordId: this.recordId, filters: this.conditions, defaultLimit: this.defaultNbFileDisplayed, offset: this.offset, sortField: this.sortField, sortOrder: this.sortOrder })
         .then(result => {
@@ -192,6 +187,7 @@ export default class FilePreview extends NavigationMixin(LightningElement) {
             }
 
             self.updateCounters(result.length);
+            self.moreLoaded = true;
         });
     }
 
