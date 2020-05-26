@@ -8,6 +8,6 @@ Lightning Web Component that display related file information with preview, lazy
 
 ## Enhancements
 
-- [x] Add stencils (Skeleton loading)
 - [ ] Store filters on the user records: *In Progress*
 - [ ] Better error handling
+- [x] [Add stencils (Skeleton loading) ](https://github.com/gavignon/lwc-file-preview/commit/ef8b79ad5585106b5feb509119328764a70c7ba1)
