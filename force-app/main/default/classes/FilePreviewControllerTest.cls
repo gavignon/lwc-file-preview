@@ -1,8 +1,5 @@
 @isTest
 public with sharing class FilePreviewControllerTest {
-    public FilePreviewControllerTest() {
-
-    }
 
     @testSetup
     static void setup() {
@@ -48,7 +45,7 @@ public with sharing class FilePreviewControllerTest {
         FilePreviewController.queryFiles(acct.Id, ContentDocumentIds);
 
         System.assertEquals(1, fileInfo.totalCount, 'TotalCount must be one.');
-        System.assertEquals(1, lf.size(), 'loadFiles must retrun one ContentDocumentLink.');
-        System.assertEquals(1, qf.size(), 'queryFiles must retrun one ContentDocumentLink.');
+        System.assertEquals(1, lf.size(), 'loadFiles must return one ContentDocumentLink.');
+        System.assertEquals(1, qf.size(), 'queryFiles must return one ContentDocumentLink.');
     }
 }
